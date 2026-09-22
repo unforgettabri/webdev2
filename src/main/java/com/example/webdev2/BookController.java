@@ -1,13 +1,14 @@
 package com.example.webdev2;
 
 import com.example.webdev2.model.Book;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/books")
 public class BookController {
 
@@ -44,4 +45,16 @@ public class BookController {
 
         return "book-detail";
     }
+
+    @GetMapping("/list")
+        public String bookList(Model model) {
+            List<Book> books = new ArrayList<>();
+
+            books.add(new Book(1, "The Little Prince", "Antoine de Saint-Exupéry"));
+            books.add(new Book(2, "Harry Potter", "J.K. Rowling"));
+
+            model.addAttribute("books", books);
+
+            return "book-list";
+        }
 }
