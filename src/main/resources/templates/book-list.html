@@ -1,17 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Book List</title>
 </head>
 <body>
-    <h1>Book List</h1>
 
-    <ul>
-        <li th:each="book : ${books}">
-            <span th:text="${book.id}"></span> -
-            <span th:text="${book.title}"></span> -
-            <span th:text="${book.author}"></span>
-        </li>
-    </ul>
+<h1>Book List</h1>
+
+<p th:if="${#lists.isEmpty(books)}">No books available.</p>
+
+<ul>
+    <li th:each="book : ${books}">
+        <span th:text="${book.title}"></span>
+        -
+        <span th:text="${book.author}"></span>
+    </li>
+</ul>
+
 </body>
 </html>

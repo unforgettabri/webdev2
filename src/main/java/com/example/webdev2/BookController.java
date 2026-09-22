@@ -51,16 +51,10 @@ public class BookController {
     }
 
     @GetMapping("/list")
-        public String bookList(Model model) {
-            List<Book> books = new ArrayList<>();
-
-            books.add(new Book(1L, "The Little Prince", "Antoine de Saint-Exupéry"));
-            books.add(new Book(2L, "Harry Potter", "J.K. Rowling"));
-
-            model.addAttribute("books", books);
-
-            return "book-list";
-        }
+    public String bookList(Model model) {
+        model.addAttribute("books", books);
+        return "book-list";
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
