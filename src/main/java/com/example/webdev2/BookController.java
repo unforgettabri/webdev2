@@ -50,8 +50,8 @@ public class BookController {
         public String bookList(Model model) {
             List<Book> books = new ArrayList<>();
 
-            books.add(new Book(1, "The Little Prince", "Antoine de Saint-Exupéry"));
-            books.add(new Book(2, "Harry Potter", "J.K. Rowling"));
+            books.add(new Book(1L, "The Little Prince", "Antoine de Saint-Exupéry"));
+            books.add(new Book(2L, "Harry Potter", "J.K. Rowling"));
 
             model.addAttribute("books", books);
 
