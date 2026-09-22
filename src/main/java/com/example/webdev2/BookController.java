@@ -20,11 +20,6 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getAllBooks() {
-        return books;
-    }
-
-    @GetMapping
     public List<Book> getAllBooks(
             @RequestParam(required = false) String author) {
 
