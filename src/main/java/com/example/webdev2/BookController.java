@@ -1,8 +1,8 @@
 package com.example.webdev2;
 
 import com.example.webdev2.model.Book;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,5 +30,18 @@ public class BookController {
         return books.stream()
                 .filter(book -> book.getAuthor().equalsIgnoreCase(author))
                 .toList();
+    }
+
+    @GetMapping("/{id}")
+    public String getBookById(@PathVariable Long id, Model model) {
+
+        Book book = books.stream()
+                .filter(b -> b.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        model.addAttribute("book", book);
+
+        return "book-detail";
     }
 }
