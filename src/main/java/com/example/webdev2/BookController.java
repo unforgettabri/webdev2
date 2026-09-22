@@ -4,6 +4,8 @@ import com.example.webdev2.model.Book;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,16 +36,18 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String getBookById(@PathVariable Long id, Model model) {
+    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
 
         Book book = books.stream()
                 .filter(b -> b.getId().equals(id))
                 .findFirst()
                 .orElse(null);
 
-        model.addAttribute("book", book);
+        if (book == null) {
+            return ResponseEntity.notFound().build();
+        }
 
-        return "book-detail";
+        return ResponseEntity.ok(book);
     }
 
     @GetMapping("/list")
@@ -57,4 +61,11 @@ public class BookController {
 
             return "book-list";
         }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Book createBook(@RequestBody Book book) {
+        books.add(book);
+        return book;
+    }
 }
