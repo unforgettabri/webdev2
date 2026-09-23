@@ -5,8 +5,8 @@ import com.example.webdev2.model.Book;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,10 +58,16 @@ public class BookController {
         return "book-list";
     }
 
+    @GetMapping("/new")
+    public String showBookForm(Model model) {
+        model.addAttribute("book", new Book());
+        return "book-form";
+    }
+
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Book createBook(@RequestBody Book book) {
+    public String createBook(@ModelAttribute Book book) {
+        book.setId((long) (books.size() + 1));
         books.add(book);
-        return book;
+        return "redirect:/books/list";
     }
 }
