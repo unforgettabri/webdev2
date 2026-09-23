@@ -1,11 +1,27 @@
 package com.example.webdev2.model;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class Book {
 
     private Long id;
+
+    @NotBlank(message = "Title cannot be blank.")
+    @Size(min = 2, max = 100, message = "Title must be between 2 and 100 characters.")
     private String title;
+
+    @NotBlank(message = "Author cannot be blank.")
+    @Size(min = 2, max = 100, message = "Author must be between 2 and 100 characters.")
     private String author;
+
+    @NotNull(message = "Category is required.")
     private Category category;
+
+    @NotNull(message = "Price is required.")
+    @Min(value = 1, message = "Price must be at least 1.")
     private Double price;
 
     public Book() {
