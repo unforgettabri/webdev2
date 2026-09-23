@@ -5,6 +5,8 @@
 </head>
 <body>
 
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <h1>Book List</h1>
 
 <p th:if="${#lists.isEmpty(books)}">No books available.</p>
