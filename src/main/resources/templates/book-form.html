@@ -1,30 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Create Book</title>
+    <title>Book Form</title>
 </head>
 <body>
 
-<div th:replace="~{fragments/navbar :: navbar}"></div>
+<h1 th:text="${book.id == null ? 'Add Book' : 'Edit Book'}"></h1>
 
-<h1>Create Book</h1>
-
-<form th:action="@{/books}" th:object="${book}" method="post">
+<form th:object="${book}"
+      th:action="${book.id == null ? '/books' : '/books/update/' + book.id}"
+      method="post">
 
     <label>Title:</label>
     <input type="text" th:field="*{title}">
-    <br><br>
+    <p th:if="${#fields.hasErrors('title')}"
+       th:errors="*{title}"></p>
+
+    <br>
 
     <label>Author:</label>
     <input type="text" th:field="*{author}">
-    <br><br>
+    <p th:if="${#fields.hasErrors('author')}"
+       th:errors="*{author}"></p>
+
+    <br>
+
+    <label>Category:</label>
+    <select th:field="*{category}">
+        <option value="">Select Category</option>
+        <option th:each="category : ${categories}"
+                th:value="${category.name}"
+                th:text="${category.name}">
+        </option>
+    </select>
+    <p th:if="${#fields.hasErrors('category')}"
+       th:errors="*{category}"></p>
+
+    <br>
 
     <label>Price:</label>
-    <input type="text" th:field="*{price}">
-    <span th:errors="*{price}"></span>
+    <input type="number" step="0.01" th:field="*{price}">
+    <p th:if="${#fields.hasErrors('price')}"
+       th:errors="*{price}"></p>
+
     <br><br>
 
-    <button type="submit">Create Book</button>
+    <button type="submit">Save Book</button>
+    <a href="/books/list">Cancel</a>
 
 </form>
 

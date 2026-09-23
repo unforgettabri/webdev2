@@ -1,48 +1,33 @@
 package com.example.webdev2;
 
-import com.example.webdev2.model.Category;
 import com.example.webdev2.model.Book;
+import com.example.webdev2.model.Category;
+import com.example.webdev2.service.BookService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-//import org.springframework.http.ResponseEntity; 
-//import org.springframework.http.HttpStatus; 
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/books")
 public class BookController {
 
-    private final List<Book> books = new ArrayList<>();
+    private final BookService bookService;
 
-    public BookController() {
-        books.add(new Book(1L, "The Little Prince", "Antoine de Saint-Exupéry", new Category("Classic")));
-        books.add(new Book(2L, "Harry Potter", "J.K. Rowling", new Category("Fantasy")));
-        books.add(new Book(3L, "The Hobbit", "J.R.R. Tolkien", new Category("Fantasy")));
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
-    @GetMapping
-    public List<Book> getAllBooks(
-            @RequestParam(required = false) String author) {
-
-        if (author == null) {
-            return books;
-        }
-
-        return books.stream()
-                .filter(book -> book.getAuthor().equalsIgnoreCase(author))
-                .toList();
+    @GetMapping("/list")
+    public String bookList(Model model) {
+        model.addAttribute("books", bookService.findAll());
+        return "book-list";
     }
 
     @GetMapping("/{id}")
     public String getBookById(@PathVariable Long id, Model model) {
-
-        Book book = books.stream()
-                .filter(b -> b.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        Book book = bookService.findById(id);
 
         if (book == null) {
             return "redirect:/books/list";
@@ -50,12 +35,6 @@ public class BookController {
 
         model.addAttribute("book", book);
         return "book-detail";
-    }
-
-    @GetMapping("/list")
-    public String bookList(Model model) {
-        model.addAttribute("books", books);
-        return "book-list";
     }
 
     @GetMapping("/new")
@@ -66,15 +45,58 @@ public class BookController {
 
     @PostMapping
     public String createBook(
-            @ModelAttribute Book book,
-            org.springframework.validation.BindingResult result) {
+            @Valid @ModelAttribute("book") Book book,
+            BindingResult result) {
 
         if (result.hasErrors()) {
             return "book-form";
         }
 
-        book.setId((long) (books.size() + 1));
-        books.add(book);
+        bookService.save(book);
         return "redirect:/books/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Book book = bookService.findById(id);
+
+        if (book == null) {
+            return "redirect:/books/list";
+        }
+
+        model.addAttribute("book", book);
+        return "book-form";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateBook(
+            @PathVariable Long id,
+            @Valid @ModelAttribute("book") Book book,
+            BindingResult result) {
+
+        if (result.hasErrors()) {
+            book.setId(id);
+            return "book-form";
+        }
+
+        book.setId(id);
+        bookService.update(book);
+        return "redirect:/books/list";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteBook(@PathVariable Long id) {
+        bookService.delete(id);
+        return "redirect:/books/list";
+    }
+
+    @ModelAttribute("categories")
+    public Category[] categories() {
+        return new Category[] {
+                new Category("Classic"),
+                new Category("Fantasy"),
+                new Category("Science Fiction"),
+                new Category("Romance")
+        };
     }
 }

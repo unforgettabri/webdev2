@@ -1,5 +1,6 @@
 package com.example.webdev2.repository;
 
+import com.example.webdev2.model.Category;
 import com.example.webdev2.model.Book;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +13,13 @@ public class BookRepository {
     private final List<Book> books = new ArrayList<>();
 
     public BookRepository() {
-        books.add(new Book(1L, "The Hobbit", "J.R.R. Tolkien", null));
-        books.add(new Book(2L, "1984", "George Orwell", null));
+        Book hobbit = new Book(1L, "The Hobbit", "J.R.R. Tolkien", new Category("Fantasy"));
+        hobbit.setPrice(450.0);
+        books.add(hobbit);
+
+        Book book1984 = new Book(2L, "1984", "George Orwell", new Category("Classic"));
+        book1984.setPrice(350.0);
+        books.add(book1984);
     }
 
     public List<Book> findAll() {
