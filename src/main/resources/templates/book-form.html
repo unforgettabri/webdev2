@@ -13,12 +13,15 @@
 
     <label>Title:</label>
     <input type="text" th:field="*{title}">
-
     <br><br>
 
     <label>Author:</label>
     <input type="text" th:field="*{author}">
+    <br><br>
 
+    <label>Price:</label>
+    <input type="text" th:field="*{price}">
+    <span th:errors="*{price}"></span>
     <br><br>
 
     <button type="submit">Create Book</button>

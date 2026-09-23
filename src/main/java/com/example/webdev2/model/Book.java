@@ -6,6 +6,7 @@ public class Book {
     private String title;
     private String author;
     private Category category;
+    private Double price;
 
     public Book() {
     }
@@ -47,5 +48,13 @@ public class Book {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

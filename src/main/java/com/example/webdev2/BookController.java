@@ -65,7 +65,14 @@ public class BookController {
     }
 
     @PostMapping
-    public String createBook(@ModelAttribute Book book) {
+    public String createBook(
+            @ModelAttribute Book book,
+            org.springframework.validation.BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "book-form";
+        }
+
         book.setId((long) (books.size() + 1));
         books.add(book);
         return "redirect:/books/list";
