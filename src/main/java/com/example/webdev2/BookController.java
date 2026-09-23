@@ -1,5 +1,6 @@
 package com.example.webdev2;
 
+import com.example.webdev2.model.Category;
 import com.example.webdev2.model.Book;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +18,9 @@ public class BookController {
     private final List<Book> books = new ArrayList<>();
 
     public BookController() {
-        books.add(new Book(1L, "The Little Prince", "Antoine de Saint-Exupéry"));
-        books.add(new Book(2L, "Harry Potter", "J.K. Rowling"));
-        books.add(new Book(3L, "The Hobbit", "J.R.R. Tolkien"));
+        books.add(new Book(1L, "The Little Prince", "Antoine de Saint-Exupéry", new Category("Classic")));
+        books.add(new Book(2L, "Harry Potter", "J.K. Rowling", new Category("Fantasy")));
+        books.add(new Book(3L, "The Hobbit", "J.R.R. Tolkien", new Category("Fantasy")));
     }
 
     @GetMapping
@@ -36,7 +37,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
+    public String getBookById(@PathVariable Long id, Model model) {
 
         Book book = books.stream()
                 .filter(b -> b.getId().equals(id))
@@ -44,10 +45,11 @@ public class BookController {
                 .orElse(null);
 
         if (book == null) {
-            return ResponseEntity.notFound().build();
+            return "redirect:/books/list";
         }
 
-        return ResponseEntity.ok(book);
+        model.addAttribute("book", book);
+        return "book-detail";
     }
 
     @GetMapping("/list")

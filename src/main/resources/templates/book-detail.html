@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Book Details</title>
+    <title>Book Detail</title>
 </head>
 <body>
-    <h1>Book Details</h1>
 
-    <p><strong>ID:</strong> <span th:text="${book.id}"></span></p>
-    <p><strong>Title:</strong> <span th:text="${book.title}"></span></p>
-    <p><strong>Author:</strong> <span th:text="${book.author}"></span></p>
+<h1>Book Detail</h1>
+
+<p>Title: <span th:text="${book.title}"></span></p>
+<p>Author: <span th:text="${book.author}"></span></p>
+<p>Category: <span th:text="${book.category.name}"></span></p>
+
 </body>
 </html>

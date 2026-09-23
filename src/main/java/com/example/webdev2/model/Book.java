@@ -5,14 +5,16 @@ public class Book {
     private Long id;
     private String title;
     private String author;
+    private Category category;
 
     public Book() {
     }
 
-    public Book(Long id, String title, String author) {
+    public Book(Long id, String title, String author, Category category) {
         this.id = id;
         this.title = title;
         this.author = author;
+        this.category = category;
     }
 
     public Long getId() {
@@ -37,5 +39,13 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
