@@ -1,1 +1,6 @@
+com/example/tasktracker/controller/TaskNotFoundException.class
+com/example/tasktracker/model/Task.class
+com/example/tasktracker/controller/TaskController.class
 com/example/tasktracker/TasktrackerApplication.class
+com/example/tasktracker/service/TaskService.class
+com/example/tasktracker/repository/TaskRepository.class
