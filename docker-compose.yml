@@ -1,0 +1,19 @@
+services:
+  db:
+    image: mysql:8.4
+    container_name: webdev2-lab7-db
+    environment:
+      MYSQL_ROOT_PASSWORD: lab7password
+      MYSQL_DATABASE: webdev2_lab7
+    ports:
+      - "3306:3306"
+    volumes:
+      - lab7-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-plab7password"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  lab7-mysql-data:
