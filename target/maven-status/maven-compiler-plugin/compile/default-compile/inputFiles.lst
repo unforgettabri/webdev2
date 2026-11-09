@@ -1,6 +1,13 @@
 /workspaces/webdev2/src/main/java/com/example/tasktracker/TasktrackerApplication.java
+/workspaces/webdev2/src/main/java/com/example/tasktracker/controller/PetController.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/controller/TaskController.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/controller/TaskNotFoundException.java
+/workspaces/webdev2/src/main/java/com/example/tasktracker/model/Pet.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/model/Task.java
+/workspaces/webdev2/src/main/java/com/example/tasktracker/model/User.java
+/workspaces/webdev2/src/main/java/com/example/tasktracker/repository/PetRepository.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/repository/TaskRepository.java
+/workspaces/webdev2/src/main/java/com/example/tasktracker/service/PetDataSeeder.java
+/workspaces/webdev2/src/main/java/com/example/tasktracker/service/PetService.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/service/TaskService.java
+/workspaces/webdev2/src/main/java/com/example/tasktracker/service/UserLifecycleRunner.java
