@@ -34,7 +34,11 @@ public class Department {
     }
 
     public void removeEmployee(Employee employee) {
-        employees.remove(employee);
+        employees.removeIf(existing ->
+            existing == employee ||
+            (existing.getId() != null &&
+            existing.getId().equals(employee.getId()))
+        );
         employee.setDepartment(null);
     }
 

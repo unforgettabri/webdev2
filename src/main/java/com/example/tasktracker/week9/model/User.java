@@ -2,7 +2,7 @@ package com.example.tasktracker.week9.model;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "Week9User")
 @Table(name = "week9_users")
 public class User {
 

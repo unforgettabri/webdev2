@@ -1,40 +1,44 @@
 package com.example.tasktracker.week9.capstone;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "clinic_veterinarians")
-public class Veterinarian {
+@Table(name = "clinic_appointments")
+public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vet_id")
+    @Column(name = "appointment_id")
     private Long id;
 
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
+    @Column(name = "appointment_date", nullable = false)
+    private LocalDate appointmentDate;
 
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+    @Column(name = "reason_for_visit")
+    private String reasonForVisit;
 
-    private String specialization;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "pet_id", nullable = false)
+    private ClinicPet pet;
 
-    @OneToMany(mappedBy = "veterinarian")
-    private List<Appointment> appointments = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "vet_id", nullable = false)
+    private Veterinarian veterinarian;
 
-    public Veterinarian() {}
+    public Appointment() {}
 
-    public Veterinarian(String firstName, String lastName, String specialization) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.specialization = specialization;
+    public Appointment(LocalDate appointmentDate, String reasonForVisit,
+                       Veterinarian veterinarian) {
+        this.appointmentDate = appointmentDate;
+        this.reasonForVisit = reasonForVisit;
+        this.veterinarian = veterinarian;
     }
 
     public Long getId() { return id; }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public String getSpecialization() { return specialization; }
-    public List<Appointment> getAppointments() { return appointments; }
+    public LocalDate getAppointmentDate() { return appointmentDate; }
+    public String getReasonForVisit() { return reasonForVisit; }
+    public ClinicPet getPet() { return pet; }
+    public void setPet(ClinicPet pet) { this.pet = pet; }
+    public Veterinarian getVeterinarian() { return veterinarian; }
 }
