@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/pets")
+@RequestMapping("/api/legacy/pets")
 public class PetController {
 
     private final PetService petService;
