@@ -2,12 +2,14 @@ package com.example.tasktracker.week9.capstone.api;
 
 import com.example.tasktracker.week9.capstone.*;
 import com.example.tasktracker.week9.capstone.api.dto.*;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
+import org.springframework.http.HttpStatus;
 
 @Service
 @Transactional
@@ -24,8 +26,24 @@ public class ClinicPetApiService {
     }
 
     @Transactional(readOnly = true)
-    public List<PetResponseDTO> getAll() {
-        return petRepository.findAll().stream().map(this::toDTO).toList();
+    public Page<PetResponseDTO> getAll(
+            int page, int size, String sort, String direction, String species) {
+
+        int safePage = Math.max(page, 0);
+        int safeSize = Math.min(Math.max(size, 1), 100);
+
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("desc")
+                ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        Pageable pageable = PageRequest.of(
+            safePage, safeSize, Sort.by(sortDirection, sort)
+        );
+
+        Page<ClinicPet> pets = (species == null || species.isBlank())
+                ? petRepository.findAll(pageable)
+                : petRepository.findBySpeciesIgnoreCase(species, pageable);
+
+        return pets.map(this::toDTO);
     }
 
     @Transactional(readOnly = true)
@@ -87,16 +105,14 @@ public class ClinicPetApiService {
 
     private ClinicPet findPet(Long id) {
         return petRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Pet not found"
-            ));
+            .orElseThrow(() ->
+                new ResourceNotFoundException("Pet not found with ID: " + id));
     }
 
     private Owner findOwner(Long id) {
         return ownerRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Owner not found"
-            ));
+            .orElseThrow(() ->
+                new ResourceNotFoundException("Owner not found with ID: " + id));
     }
 
     private void checkDuplicateName(String name, Long id) {

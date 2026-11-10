@@ -2,12 +2,12 @@ package com.example.tasktracker.week9.capstone.api;
 
 import com.example.tasktracker.week9.capstone.api.dto.*;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/pets")
@@ -20,8 +20,14 @@ public class ClinicPetApiController {
     }
 
     @GetMapping
-    public List<PetResponseDTO> getAll() {
-        return service.getAll();
+    public Page<PetResponseDTO> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "asc") String direction,
+            @RequestParam(required = false) String species) {
+
+        return service.getAll(page, size, sort, direction, species);
     }
 
     @GetMapping("/{id}")
@@ -32,7 +38,9 @@ public class ClinicPetApiController {
     @PostMapping
     public ResponseEntity<PetResponseDTO> create(
             @Valid @RequestBody CreatePetRequest request) {
+
         PetResponseDTO created = service.create(request);
+
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}").buildAndExpand(created.id()).toUri();
 
@@ -42,14 +50,14 @@ public class ClinicPetApiController {
     @PutMapping("/{id}")
     public PetResponseDTO replace(
             @PathVariable Long id,
-            @RequestBody UpdatePetRequest request) {
+            @Valid @RequestBody UpdatePetRequest request) {
         return service.replace(id, request);
     }
 
     @PatchMapping("/{id}")
     public PetResponseDTO patch(
             @PathVariable Long id,
-            @RequestBody UpdatePetRequest request) {
+            @Valid @RequestBody UpdatePetRequest request) {
         return service.patch(id, request);
     }
 

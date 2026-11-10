@@ -1,0 +1,203 @@
+
+{
+  "info": {
+    "name": "WEBDEV2 Week 11 - Clinic Pets API Tests",
+    "description": "Automated tests for validation, error handling, CORS, pagination, and filtering.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "Get Paginated Pets",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/pets?page=0&size=5&sort=name&direction=asc"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Returns 200 OK', function () { pm.response.to.have.status(200); });",
+              "pm.test('Returns paginated content', function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data).to.have.property('content');",
+              "  pm.expect(data).to.have.property('totalElements');",
+              "  pm.expect(data.size).to.eql(5);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Filter Pets by Species",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/pets?species=Dog"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Returns 200 OK', function () { pm.response.to.have.status(200); });",
+              "pm.test('Returns only dogs', function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data.content.every(pet => pet.species.toLowerCase() === 'dog')).to.be.true;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Existing Pet",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/pets/1"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Returns 200 OK', function () { pm.response.to.have.status(200); });",
+              "pm.test('Returns Mochi', function () {",
+              "  pm.expect(pm.response.json().name).to.eql('Mochi');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Validation Error - Invalid Pet",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\":\"\",\"species\":\"\",\"age\":-1,\"ownerId\":0}"
+        },
+        "url": "{{baseUrl}}/api/pets"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Returns 400 Bad Request', function () { pm.response.to.have.status(400); });",
+              "pm.test('Includes field validation errors', function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data.status).to.eql(400);",
+              "  pm.expect(data.errors).to.be.an('array').that.is.not.empty;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Duplicate Pet Name",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\":\"Mochi\",\"species\":\"Dog\",\"age\":2,\"ownerId\":1}"
+        },
+        "url": "{{baseUrl}}/api/pets"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Returns 409 Conflict', function () { pm.response.to.have.status(409); });",
+              "pm.test('Returns consistent error response', function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data.status).to.eql(409);",
+              "  pm.expect(data.message).to.eql('Pet name already exists');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pet Not Found",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/pets/999999"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Returns 404 Not Found', function () { pm.response.to.have.status(404); });",
+              "pm.test('Returns consistent error response', function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data.status).to.eql(404);",
+              "  pm.expect(data.message).to.include('Pet not found');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "CORS Preflight",
+      "request": {
+        "method": "OPTIONS",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "http://localhost:3000"
+          },
+          {
+            "key": "Access-Control-Request-Method",
+            "value": "POST"
+          }
+        ],
+        "url": "{{baseUrl}}/api/pets"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Returns successful preflight response', function () { pm.response.to.have.status(200); });",
+              "pm.test('Allows configured frontend origin', function () {",
+              "  pm.expect(pm.response.headers.get('Access-Control-Allow-Origin')).to.eql('http://localhost:3000');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}
