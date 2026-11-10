@@ -26,9 +26,13 @@
 /workspaces/webdev2/src/main/java/com/example/tasktracker/week9/capstone/VeterinarianRepository.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/week9/capstone/api/ClinicPetApiController.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/week9/capstone/api/ClinicPetApiService.java
+/workspaces/webdev2/src/main/java/com/example/tasktracker/week9/capstone/api/GlobalExceptionHandler.java
+/workspaces/webdev2/src/main/java/com/example/tasktracker/week9/capstone/api/ResourceNotFoundException.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/week9/capstone/api/dto/CreatePetRequest.java
+/workspaces/webdev2/src/main/java/com/example/tasktracker/week9/capstone/api/dto/ErrorResponse.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/week9/capstone/api/dto/PetResponseDTO.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/week9/capstone/api/dto/UpdatePetRequest.java
+/workspaces/webdev2/src/main/java/com/example/tasktracker/week9/config/WebConfig.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/week9/model/Course.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/week9/model/Department.java
 /workspaces/webdev2/src/main/java/com/example/tasktracker/week9/model/Employee.java

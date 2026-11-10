@@ -22,11 +22,15 @@ com/example/tasktracker/service/PetDataSeeder.class
 com/example/tasktracker/service/TaskService.class
 com/example/tasktracker/service/UserLifecycleRunner.class
 com/example/tasktracker/service/PetService.class
+com/example/tasktracker/week9/config/WebConfig.class
 com/example/tasktracker/week9/repository/UserRepository.class
 com/example/tasktracker/week9/capstone/ClinicService.class
 com/example/tasktracker/week9/model/UserProfile.class
+com/example/tasktracker/week9/capstone/api/GlobalExceptionHandler.class
 com/example/tasktracker/week9/model/Course.class
 com/example/tasktracker/week9/repository/CourseRepository.class
+com/example/tasktracker/week9/capstone/api/dto/ErrorResponse.class
+com/example/tasktracker/week9/capstone/api/ResourceNotFoundException.class
 com/example/tasktracker/week9/capstone/VaccinationRecordRepository.class
 com/example/tasktracker/controller/PetController.class
 com/example/tasktracker/week9/capstone/VaccinationRecordId.class
@@ -41,5 +45,6 @@ com/example/tasktracker/week9/model/User.class
 com/example/tasktracker/week9/capstone/Veterinarian.class
 com/example/tasktracker/TasktrackerApplication.class
 com/example/tasktracker/week9/model/Employee.class
+com/example/tasktracker/week9/capstone/api/dto/ErrorResponse$FieldError.class
 com/example/tasktracker/week9/model/Enrollment.class
 com/example/tasktracker/week9/capstone/api/dto/UpdatePetRequest.class
