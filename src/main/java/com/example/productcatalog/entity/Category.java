@@ -37,6 +37,7 @@ public class Category {
     public String getDescription() { return description; }
     public List<Product> getProducts() { return products; }
 
+    public void setId(Long id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setDescription(String description) { this.description = description; }
 }
