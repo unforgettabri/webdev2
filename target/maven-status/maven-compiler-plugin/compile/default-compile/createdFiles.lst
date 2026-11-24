@@ -1,0 +1,12 @@
+com\example\productcatalog\exception\GlobalExceptionHandler.class
+com\example\productcatalog\service\ProductService.class
+com\example\productcatalog\repository\ProductRepository.class
+com\example\productcatalog\service\CategoryService.class
+com\example\productcatalog\dto\CategoryDTO.class
+com\example\productcatalog\entity\Product.class
+com\example\productcatalog\ProductcatalogApplication.class
+com\example\productcatalog\dto\ProductDTO.class
+com\example\productcatalog\entity\Category.class
+com\example\productcatalog\repository\CategoryRepository.class
+com\example\productcatalog\controller\ProductController.class
+com\example\productcatalog\controller\CategoryController.class
